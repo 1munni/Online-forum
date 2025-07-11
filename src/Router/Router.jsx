@@ -4,6 +4,11 @@ import Home from "../Pages/Home/Home/Home";
 import AuthLayout from "../Layouts/AuthLayout";
 import SignIn from "../Pages/Authentication/SignIn/SignIn";
 import Register from "../Pages/Authentication/Register/Register";
+import PrivateRoutes from "../Routes/PrivateRoutes";
+import DasBoardLayout from "../Layouts/DasBoardLayout";
+import MyPosts from "../Pages/DashBoard/MyPost/MyPosts";
+import AddPost from "../Pages/DashBoard/AddPost/AddPost";
+import MyProfile from "../Pages/DashBoard/MyProfile/MyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -29,5 +34,28 @@ export const router = createBrowserRouter([
         Component:Register
       }
     ]
-  }
+  },
+ {
+  path: '/dashboard',
+  element: (
+    <PrivateRoutes>
+      <DasBoardLayout />
+    </PrivateRoutes>
+  ),
+  children: [
+    {
+      path: 'myPost',
+      element: <MyPosts />
+    },
+    {
+      path: 'addPost',
+      element: <AddPost></AddPost>
+    },
+    {
+      path: 'profile',
+      element: <MyProfile></MyProfile>
+    }
+  ]
+}
+
 ]);
