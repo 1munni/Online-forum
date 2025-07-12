@@ -25,9 +25,9 @@ const signInWithGoogle=()=>{
     return signInWithPopup(auth,googleProvider)
 }
 
-const updateUserProfile=profileInfo=>{
-    return updateProfile(auth.currentUser, profileInfo);
-}
+const updateUserProfile = async (profileInfo) => {
+  return updateProfile(auth.currentUser,profileInfo)
+};
 
     const logOut=()=>{
         setLoading(true)

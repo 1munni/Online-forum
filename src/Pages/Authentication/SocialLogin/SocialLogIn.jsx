@@ -1,24 +1,40 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
+import useAxios from '../../../Hooks/useAxios';
+
+
 
 const SocialLogIn = () => {
   const { signInWithGoogle } = useAuth();
+ const axiosInstance=useAxios();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then(result => {
-        console.log('Google Sign-In Success:', result.user);
-        navigate(from);
-      })
-      .catch(error => {
-        console.error('Google Sign-In Error:', error);
-      });
-  };
+ const  handleGoogleSignIn=()=>{
+signInWithGoogle()
+.then(async result=>{
+    const user=result.user;
+    console.log(result.user);
 
+    // update userinfo in the database
+const userInfo={
+    email: user.email,
+    role:'user',//deafault value
+    created_at:new Date().toISOString(),
+    last_log_in:new Date().toISOString(),
+}
+ 
+const res=await axiosInstance.post('/users',userInfo);
+console.log('user update info',res.data);
+
+    navigate(from)
+})
+.catch(error=>{
+    console.error(error)
+})
+    }
   return (
     <div className="text-center">
       <p className="mb-4">Or</p>

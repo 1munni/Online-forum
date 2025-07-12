@@ -25,7 +25,8 @@ const AddPost = () => {
   useEffect(() => {
     const fetchPostCount = async () => {
       try {
-        const res = await axiosSecure.get(`/posts/count?email=${user?.email}`);
+        const res = await axiosSecure.get(`/posts-count/count?email=${user?.email}`);
+        console.log(res.data)
         setPostCount(res.data.count);
       } catch (err) {
         console.error("Error fetching post count", err);
@@ -40,7 +41,15 @@ const AddPost = () => {
   }, [user, axiosSecure]);
 
   const onSubmit = async (data) => {
-    if (!tag) return alert("Please select a tag");
+    console.log("User object:", user);
+  if (!tag) return alert("Please select a tag");
+
+  // ✅ Validate user info before proceeding
+  if (!user?.uid || !user?.displayName || !user?.email || !user?.photoURL) {
+    alert("User information is incomplete.");
+    return;
+  }
+
 
     
     const post = {
@@ -110,7 +119,6 @@ const AddPost = () => {
           <input
             type="text"
             defaultValue={user?.displayName}
-            readOnly
             className="input input-bordered w-full"
           />
         </div>

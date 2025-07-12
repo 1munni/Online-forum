@@ -9,6 +9,7 @@ import DasBoardLayout from "../Layouts/DasBoardLayout";
 import MyPosts from "../Pages/DashBoard/MyPost/MyPosts";
 import AddPost from "../Pages/DashBoard/AddPost/AddPost";
 import MyProfile from "../Pages/DashBoard/MyProfile/MyProfile";
+import PostDetails from "../Pages/Home/PostDetails/PostDetails";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,11 @@ export const router = createBrowserRouter([
         {
             index:true,
             Component:Home
-        }
+        },
+        {
+        path: "post/:id",         
+        Component: PostDetails
+      }
     ]
   },
   {

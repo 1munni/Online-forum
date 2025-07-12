@@ -13,7 +13,7 @@ apiKey: import.meta.env.VITE_apiKey,
   messagingSenderId: import.meta.env.VITE_messagingSenderId,
   appId: import.meta.env.VITE_appId
 };
-
+// console.log("Using Firebase config:", firebaseConfig);
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
