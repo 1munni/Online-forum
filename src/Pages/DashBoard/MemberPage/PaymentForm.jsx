@@ -70,7 +70,7 @@ const PaymentForm = () => {
         else setError('');
       }} />
       <button className="btn btn-primary w-full" type="submit" disabled={!stripe || !clientSecret || processing}>
-        <h2 className="font-medium text-xl m-2">{processing ? "Processing..." : "Pay for Membership"}</h2>
+        <h2 className="font-medium text-xl m-2">{processing ? "Processing..." : "Pay for Membership($10)"}</h2>
       </button>
       {error && <p className="text-red-500 text-center">{error}</p>}
       {success && <p className="text-green-500 text-center">{success}</p>}

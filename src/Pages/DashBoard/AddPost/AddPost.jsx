@@ -23,23 +23,45 @@ const AddPost = () => {
   const [isMember, setIsMember] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPostCount = async () => {
-      try {
-        const res = await axiosSecure.get(`/posts-count/count?email=${user?.email}`);
-        setPostCount(res.data.count);
-      } catch (err) {
-        console.error("Error fetching post count", err);
-        Swal.fire("Error", "Failed to fetch post count.", "error");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPostCount = async () => {
+  //     try {
+  //       const res = await axiosSecure.get(`/posts-count/count?email=${user?.email}`);
+  //       setPostCount(res.data.count);
+  //     } catch (err) {
+  //       console.error("Error fetching post count", err);
+  //       Swal.fire("Error", "Failed to fetch post count.", "error");
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    if (user?.email) {
-      fetchPostCount();
+  //   if (user?.email) {
+  //     fetchPostCount();
+  //   }
+  // }, [user, axiosSecure]);
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [postRes, memberRes] = await Promise.all([
+        axiosSecure.get(`/posts-count/count?email=${user?.email}`),
+        axiosSecure.get(`/users-membership/${user?.email}`)
+      ]);
+      setPostCount(postRes.data.count);
+      setIsMember(memberRes.data.isMember);
+    } catch (err) {
+      console.error("Error fetching data", err);
+      Swal.fire("Error", "Failed to fetch post or membership info.", "error");
+    } finally {
+      setIsLoading(false);
     }
-  }, [user, axiosSecure]);
+  };
+
+  if (user?.email) {
+    fetchData();
+  }
+}, [user, axiosSecure]);
 
   const onSubmit = async (data) => {
     if (!tag) {
@@ -83,7 +105,7 @@ const AddPost = () => {
     return <div className="text-center mt-10">Loading...</div>;
   }
 
-  if (postCount >= 5) {
+  if (postCount >= 5 && !isMember){
     return (
       <div className="text-center mt-20 px-4">
         <p className="text-xl font-semibold mb-4 text-red-600">

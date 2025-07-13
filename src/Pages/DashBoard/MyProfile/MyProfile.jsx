@@ -32,7 +32,8 @@ const MyProfile = () => {
     return <div className="text-center py-10">Loading profile...</div>;
   }
 
-  const isMember = dbUser?.role === 'member';
+  const isMember = dbUser?.membership === 'member';
+
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
