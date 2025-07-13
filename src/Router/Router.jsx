@@ -10,6 +10,7 @@ import MyPosts from "../Pages/DashBoard/MyPost/MyPosts";
 import AddPost from "../Pages/DashBoard/AddPost/AddPost";
 import MyProfile from "../Pages/DashBoard/MyProfile/MyProfile";
 import PostDetails from "../Pages/Home/PostDetails/PostDetails";
+import MemberPage from "../Pages/DashBoard/MemberPage/MemberPage";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,14 @@ export const router = createBrowserRouter([
         {
             index:true,
             Component:Home
+        },
+        {
+          path:'membership',
+           element: (
+    <PrivateRoutes>
+     <MemberPage></MemberPage>
+    </PrivateRoutes>
+  ),
         },
         {
         path: "post/:id",         

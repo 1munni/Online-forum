@@ -23,13 +23,15 @@ const MyPosts = () => {
 
   // Delete post mutation
   const deleteMutation = useMutation(
-    async (postId) => {
+    {
+   mutationFn:   async (postId) => {
       await axiosSecure.delete(`/posts/${postId}`);
     },
-    {
+    
       onSuccess: () => {
         queryClient.invalidateQueries(['userPosts', user?.email]);
       },
+    
     }
   );
 

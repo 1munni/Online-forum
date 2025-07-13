@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-import { Navigate, useLocation } from 'react-router';
+import { Navigate, useLocation, useNavigate } from 'react-router';
 import useAuth from '../Hooks/useAuth';
 
 const PrivateRoutes = ({children}) => {
@@ -9,8 +9,7 @@ const location=useLocation();
 // console.log(location)
 
 if (loading){
-    
-   return <span className="loading loading-ring loading-xl"></span>
+    return <span className="loading loading-ring loading-xl"></span>
 }
 
 if(!user){

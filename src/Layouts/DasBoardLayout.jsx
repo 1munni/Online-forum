@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router'; 
+import Logo from '../Pages/Shared/Logo/Logo';
 const DasBoardLayout = () => {
   return (
     <div className="drawer lg:drawer-open">
@@ -43,8 +44,10 @@ const DasBoardLayout = () => {
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
         
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+         
           {/* ✅ Sidebar links updated to use NavLink */}
           <li>
+             <Logo></Logo>
             <NavLink
               to="/dashboard/myPost"
               className={({ isActive }) =>

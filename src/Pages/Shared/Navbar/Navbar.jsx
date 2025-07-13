@@ -28,11 +28,11 @@ setIsDropdownOpen(false);
           <FaBell className="text-xl" />
         </button>
       </li>
-      {!user && (
+      {/* {!user && (
         <li>
           <Link to="/signin" className="btn btn-primary text-sm px-4 py-2">Join Us</Link>
         </li>
-      )}
+      )} */}
     </>
   );
 
@@ -64,8 +64,8 @@ setIsDropdownOpen(false);
       </div>
 
       <div className="navbar-end">
-        {user && (
-          <div className="relative">
+        {user ?
+       (      <div className="relative">
             <button
               onClick={toggleDropdown}
               className="flex items-center gap-2"
@@ -84,9 +84,12 @@ setIsDropdownOpen(false);
 <button onClick={handleLogout} className="p-2 text-left hover:bg-gray-100 w-full">Logout</button> 
   </div>
 )}
-
-          </div>
-        )}
+ </div> )
+        
+  :
+   (<li>
+    <Link to="/signin" className="btn btn-primary text-sm px-4 py-2">Join Us</Link>
+    </li>)}
       </div>
     </div>
   );

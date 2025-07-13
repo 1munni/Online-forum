@@ -3,14 +3,12 @@ import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
 import useAxios from '../../../Hooks/useAxios';
 
-
-
 const SocialLogIn = () => {
   const { signInWithGoogle } = useAuth();
  const axiosInstance=useAxios();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from || '/';
 
  const  handleGoogleSignIn=()=>{
 signInWithGoogle()

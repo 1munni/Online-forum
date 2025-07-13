@@ -8,8 +8,6 @@ import useAuth from '../../../Hooks/useAuth';
 
 const SignIn = () => {
     const{register,handleSubmit, formState:{errors}}=useForm();
-
-
 const {signIn}=useAuth();
 const navigate=useNavigate();
 const location=useLocation();
