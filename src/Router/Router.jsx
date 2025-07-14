@@ -11,6 +11,8 @@ import AddPost from "../Pages/DashBoard/AddPost/AddPost";
 import MyProfile from "../Pages/DashBoard/MyProfile/MyProfile";
 import PostDetails from "../Pages/Home/PostDetails/PostDetails";
 import MemberPage from "../Pages/DashBoard/MemberPage/MemberPage";
+import CommentsPage from "../Pages/DashBoard/CommentsPage/CommentsPage";
+
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +63,10 @@ export const router = createBrowserRouter([
       path: 'myPost',
       element: <MyPosts />
     },
+    {
+  path: 'comments/:postId',
+  element: <CommentsPage />
+},
     {
       path: 'addPost',
       element: <AddPost></AddPost>

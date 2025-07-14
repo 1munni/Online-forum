@@ -1,23 +1,22 @@
 import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router"; // ✅ fixed to react-router-dom
 import { FaBell } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../Logo/Logo";
 import useAuth from "../../../Hooks/useAuth";
 
-
 const Navbar = () => {
-  const {user,logOut} = useAuth();
+  const { user, logOut } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleLogout = async () => {
-console.log("Logout clicked"); 
-await logOut();              
-navigate('/signin');      
-setIsDropdownOpen(false);  
-};
+    await logOut();
+    navigate("/signin");
+    setIsDropdownOpen(false);
+  };
 
   const navLinks = (
     <>
@@ -28,23 +27,19 @@ setIsDropdownOpen(false);
           <FaBell className="text-xl" />
         </button>
       </li>
-      {/* {!user && (
-        <li>
-          <Link to="/signin" className="btn btn-primary text-sm px-4 py-2">Join Us</Link>
-        </li>
-      )} */}
     </>
   );
 
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+      {/* Start: Logo and Hamburger */}
       <div className="navbar-start">
         <div className="dropdown">
           <button tabIndex={0} className="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
               viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </button>
           <ul
@@ -57,18 +52,20 @@ setIsDropdownOpen(false);
         <Logo />
       </div>
 
+      {/* Center nav on large screens */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 items-center gap-1">
           {navLinks}
         </ul>
       </div>
 
+      {/* Right: User / Join */}
       <div className="navbar-end">
-        {user ?
-       (      <div className="relative">
+        {user ? (
+          <div className="relative">
             <button
               onClick={toggleDropdown}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 focus:outline-none"
             >
               <img
                 src={user.photoURL || "https://i.ibb.co/2nzwxcG/default-user.png"}
@@ -77,19 +74,30 @@ setIsDropdownOpen(false);
               />
               <IoIosArrowDown className="text-lg text-gray-600" />
             </button>
-           {isDropdownOpen && (
-  <div className="dropdown-content ...">
-    <div className="p-2">{user?.displayName}</div>
-    <Link to="/dashboard" className="p-2 hover:bg-gray-100">Dashboard</Link>
-<button onClick={handleLogout} className="p-2 text-left hover:bg-gray-100 w-full">Logout</button> 
-  </div>
-)}
- </div> )
-        
-  :
-   (<li>
-    <Link to="/signin" className="btn btn-primary text-sm px-4 py-2">Join Us</Link>
-    </li>)}
+
+            {/* Dropdown */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50 text-sm">
+                <div className="px-4 py-2 font-semibold border-b">{user?.displayName}</div>
+                <Link
+                  to="/dashboard"
+                  className="block px-4 py-2 hover:bg-gray-100 transition"
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link to="/signin" className="btn btn-primary text-sm px-4 py-2">Join Us</Link>
+        )}
       </div>
     </div>
   );
