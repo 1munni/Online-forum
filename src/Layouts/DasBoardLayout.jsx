@@ -70,6 +70,15 @@ const DasBoardLayout = () => {
               Add Post
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/dashboard/makeAdmin"
+              className={({ isActive }) => isActive ? 'text-primary font-bold' : ''}
+              onClick={closeDrawer}
+            >
+              Manage User
+            </NavLink>
+          </li>
         </ul>
       </div>
     </div>

@@ -23,23 +23,6 @@ const AddPost = () => {
   const [isMember, setIsMember] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchPostCount = async () => {
-  //     try {
-  //       const res = await axiosSecure.get(`/posts-count/count?email=${user?.email}`);
-  //       setPostCount(res.data.count);
-  //     } catch (err) {
-  //       console.error("Error fetching post count", err);
-  //       Swal.fire("Error", "Failed to fetch post count.", "error");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   if (user?.email) {
-  //     fetchPostCount();
-  //   }
-  // }, [user, axiosSecure]);
 
   useEffect(() => {
   const fetchData = async () => {

@@ -16,18 +16,6 @@ const Register = () => {
   const from = location.state?.from || '/';
 const axiosInstance=useAxios();
 
- 
-
-
-      // // ✅ NEW: Save user with bronze badge
-      // const newUser = {
-      //   name: data.name,
-      //   email: data.email,
-      //   badge: 'bronze', // ✅ Badge assignment
-      //   role: 'user', // Optional, default user role
-      //   createdAt: new Date(),
-      // };
-      // axiosSecure.post("/users", newUser); // ✅ Send to DB via secure axios
 
    const onSubmit=data=>{
         console.log(data)
@@ -39,6 +27,7 @@ const axiosInstance=useAxios();
 // update userinfo in the database
 const userInfo={
     email: data.email,
+    username: data.username,
     role:'user',//default value
     badge: 'bronze',
     created_at:new Date().toISOString(),

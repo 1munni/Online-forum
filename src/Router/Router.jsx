@@ -12,6 +12,7 @@ import MyProfile from "../Pages/DashBoard/MyProfile/MyProfile";
 import PostDetails from "../Pages/Home/PostDetails/PostDetails";
 import MemberPage from "../Pages/DashBoard/MemberPage/MemberPage";
 import CommentsPage from "../Pages/DashBoard/CommentsPage/CommentsPage";
+import MakeAdmin from "../Pages/DashBoard/MakeAdmin/MakeAdmin";
 
 
 export const router = createBrowserRouter([
@@ -74,7 +75,11 @@ export const router = createBrowserRouter([
     {
       path: 'profile',
       element: <MyProfile></MyProfile>
-    }
+    },
+    {
+      path:'makeAdmin',
+      element:<MakeAdmin></MakeAdmin>
+    },
   ]
 }
 
