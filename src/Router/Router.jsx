@@ -18,6 +18,7 @@ import Forbidden from "../Pages/Forbidden/Forbidden";
 import AdminProfile from "../Pages/DashBoard/AdminProfiel/AdminProfile";
 import MakeAnnounce from "../Pages/DashBoard/MakeAnnouncement/MakeAnnounce";
 import ReportComment from "../Pages/DashBoard/ReportComment/ReportComment";
+import TagPosts from "../Pages/Home/TagPosts/TagPosts";
 
 
 
@@ -45,7 +46,12 @@ export const router = createBrowserRouter([
       {
         path:'forbidden',
         Component: Forbidden
-      }
+      },
+    {
+  path: "/tags/:tag",
+  element: <TagPosts />,
+}
+
     ]
   },
   {
