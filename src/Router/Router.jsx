@@ -13,6 +13,12 @@ import PostDetails from "../Pages/Home/PostDetails/PostDetails";
 import MemberPage from "../Pages/DashBoard/MemberPage/MemberPage";
 import CommentsPage from "../Pages/DashBoard/CommentsPage/CommentsPage";
 import MakeAdmin from "../Pages/DashBoard/MakeAdmin/MakeAdmin";
+import AdminRoutes from "../Routes/AdminRoutes";
+import Forbidden from "../Pages/Forbidden/Forbidden";
+import AdminProfile from "../Pages/DashBoard/AdminProfiel/AdminProfile";
+import MakeAnnounce from "../Pages/DashBoard/MakeAnnouncement/MakeAnnounce";
+import ReportComment from "../Pages/DashBoard/ReportComment/ReportComment";
+
 
 
 export const router = createBrowserRouter([
@@ -35,6 +41,10 @@ export const router = createBrowserRouter([
         {
         path: "post/:id",         
         Component: PostDetails
+      },
+      {
+        path:'forbidden',
+        Component: Forbidden
       }
     ]
   },
@@ -78,7 +88,19 @@ export const router = createBrowserRouter([
     },
     {
       path:'makeAdmin',
-      element:<MakeAdmin></MakeAdmin>
+      element:<AdminRoutes><MakeAdmin></MakeAdmin></AdminRoutes>
+    },
+    {
+      path:'adminProfile',
+      element:<AdminRoutes><AdminProfile></AdminProfile></AdminRoutes>
+    },
+    {
+      path:'makeAnnouncement',
+      element:<AdminRoutes><MakeAnnounce></MakeAnnounce></AdminRoutes>
+    },
+    {
+      path:'reportComments',
+      element:<AdminRoutes><ReportComment></ReportComment></AdminRoutes>
     },
   ]
 }

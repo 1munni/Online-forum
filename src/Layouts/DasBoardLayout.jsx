@@ -1,9 +1,13 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router'; 
 import Logo from '../Pages/Shared/Logo/Logo';
+import useUserRole from '../Hooks/useUserRole';
 
 
 const DasBoardLayout = () => {
+const{role, isRoleLoading}=useUserRole();
+console.log(role);
+
   // Close drawer on link click (mobile)
   const closeDrawer = () => {
     const drawerToggle = document.getElementById('my-drawer-2');
@@ -43,6 +47,10 @@ const DasBoardLayout = () => {
           <li>
             <Logo />
           </li>
+
+          {
+            !isRoleLoading && role === 'user' &&(
+              <>
           <li>
             <NavLink
               to="/dashboard/myPost"
@@ -70,15 +78,52 @@ const DasBoardLayout = () => {
               Add Post
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/dashboard/makeAdmin"
-              className={({ isActive }) => isActive ? 'text-primary font-bold' : ''}
-              onClick={closeDrawer}
-            >
-              Manage User
-            </NavLink>
-          </li>
+              </>
+            )
+          }
+
+
+      {!isRoleLoading && role === 'admin' && (
+  <>
+    <li>
+      <NavLink
+        to="/dashboard/adminProfile"
+        className={({ isActive }) => isActive ? 'text-primary font-bold' : ''}
+        onClick={closeDrawer}
+      >
+        Admin Profile
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/dashboard/makeAdmin"
+        className={({ isActive }) => isActive ? 'text-primary font-bold' : ''}
+        onClick={closeDrawer}
+      >
+        Manage User
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/dashboard/makeAnnouncement"
+        className={({ isActive }) => isActive ? 'text-primary font-bold' : ''}
+        onClick={closeDrawer}
+      >
+        Make Announcement
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/dashboard/reportComments"
+        className={({ isActive }) => isActive ? 'text-primary font-bold' : ''}
+        onClick={closeDrawer}
+      >
+       Report Comments
+      </NavLink>
+    </li>
+  </>
+)}
+
         </ul>
       </div>
     </div>
