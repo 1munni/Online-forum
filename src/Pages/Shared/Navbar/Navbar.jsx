@@ -4,11 +4,14 @@ import { FaBell } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../Logo/Logo";
 import useAuth from "../../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -18,13 +21,27 @@ const Navbar = () => {
     setIsDropdownOpen(false);
   };
 
+  // ✅ Fetch announcement count
+  const { data: announcements = [] } = useQuery({
+    queryKey: ["announcements"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/announcements");
+      return res.data;
+    },
+  });
+
   const navLinks = (
     <>
       <li><NavLink to="/" className="btn btn-ghost text-base">Home</NavLink></li>
       <li><NavLink to="/membership" className="btn btn-ghost text-base">Membership</NavLink></li>
       <li>
-        <button className="btn btn-ghost text-base">
+        <button className="btn btn-ghost text-base relative">
           <FaBell className="text-xl" />
+          {announcements.length > 0 && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              {announcements.length}
+            </span>
+          )}
         </button>
       </li>
     </>
