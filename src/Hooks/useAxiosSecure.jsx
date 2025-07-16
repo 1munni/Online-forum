@@ -6,7 +6,7 @@ import useAuth from './useAuth';
 
 // ✅ Create a secure Axios instance
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://assignment-12-serversite-sooty.vercel.app/',
 });
 
 const useAxiosSecure = () => {
