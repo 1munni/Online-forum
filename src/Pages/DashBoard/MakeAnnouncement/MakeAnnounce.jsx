@@ -5,7 +5,7 @@ import useAuth from '../../../Hooks/useAuth';
 
 const MakeAnnouncement = () => {
     const axiosSecure = useAxiosSecure();
-    const { user } = useAuth(); // Your auth hook should provide user info
+    const { user } = useAuth(); 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);

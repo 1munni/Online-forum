@@ -1,9 +1,9 @@
-import React from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
-import useAuth from '../../../Hooks/useAuth';
-import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import React from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const MyPosts = () => {
   const { user } = useAuth();
@@ -11,8 +11,12 @@ const MyPosts = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: posts = [], isLoading, isError } = useQuery({
-    queryKey: ['userPosts', user?.email],
+  const {
+    data: posts = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["userPosts", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/posts?email=${user.email}`);
@@ -25,33 +29,39 @@ const MyPosts = () => {
       await axiosSecure.delete(`/posts/${postId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userPosts', user?.email]);
+      queryClient.invalidateQueries(["userPosts", user?.email]);
     },
   });
 
   const handleDelete = (postId) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteMutation.mutate(postId);
-        Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+        Swal.fire("Deleted!", "Your post has been deleted.", "success");
       }
     });
   };
 
-const handleComment = (postId) => {
-  navigate(`/dashboard/comments/${postId}`);
-};
+  const handleComment = (postId) => {
+    navigate(`/dashboard/comments/${postId}`);
+  };
 
-  if (isLoading) return <div className="text-center py-10">Loading posts...</div>;
-  if (isError) return <div className="text-center py-10 text-red-500">Failed to load posts.</div>;
+  if (isLoading)
+    return <div className="text-center py-10">Loading posts...</div>;
+  if (isError)
+    return (
+      <div className="text-center py-10 text-red-500">
+        Failed to load posts.
+      </div>
+    );
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -65,12 +75,18 @@ const handleComment = (postId) => {
           <table className="min-w-full border-collapse border border-gray-300">
             <thead className="bg-gray-100">
               <tr>
-                <th className="border border-gray-300 px-4 py-2 text-left">Post Title</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">
+                  Post Title
+                </th>
                 <th className="border border-gray-300 px-4 py-2 text-center hidden sm:table-cell">
                   Votes
                 </th>
-                <th className="border border-gray-300 px-4 py-2 text-center">Comments</th>
-                <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">
+                  Comments
+                </th>
+                <th className="border border-gray-300 px-4 py-2 text-center">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>

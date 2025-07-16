@@ -28,7 +28,7 @@ const BrowseTags = () => {
           <button
             key={tag.value}
             onClick={() => handleTagClick(tag.value)}
-            className="bg-primary/10 hover:bg-primary/20 text-primary font-semibold py-3 px-4 rounded-xl shadow-sm transition-all duration-200 w-full text-center"
+            className="bg-primary/10 hover:bg-primary/30 text-primary font-semibold py-3 px-4 rounded-xl shadow-sm transition-all duration-200 w-full text-center"
           >
             {tag.label}
           </button>

@@ -31,7 +31,7 @@ const BannerWithSearch = () => {
     return (
         <> {/* React Fragment to return multiple top-level elements */}
             {/* Banner Section */}
-            <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-20 px-4 text-white text-center">
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 py-20 px-4 text-white text-center my-10 rounded-2xl shadow">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">Discover Conversations</h1>
                 <p className="text-lg md:text-xl max-w-xl mx-auto mb-8">
                     Search posts by topics like Tech, Education, News & Lifestyle
@@ -45,7 +45,7 @@ const BannerWithSearch = () => {
                         placeholder="Search by tag (e.g. tech, news)"
                         className="input input-bordered w-full md:w-96 text-black"
                     />
-                    <button type="submit" className="btn btn-accent px-6 text-white">Search</button>
+                    <button type="submit" className="bg-white text-indigo-600 font-medium px-4 py-2 rounded shadow hover:bg-gray-100 transition">Search</button>
                 </form>
 
                 {/* Loading/Error messages for the search *within* the banner context */}
