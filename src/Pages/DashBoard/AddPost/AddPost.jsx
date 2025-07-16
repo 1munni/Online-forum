@@ -50,8 +50,11 @@ const AddPost = () => {
     if (!tag) {
       return Swal.fire("Missing Tag", "Please select a tag for the post.", "warning");
     }
-
-    if (!user?.uid || !user?.displayName || !user?.email || !user?.photoURL) {
+// console.log(user?.uid,
+//  user?.displayName,
+//   user?.email,
+//   user?.photoURL)
+    if (!user?.uid || !user?.displayName || !user?.email) {
       return Swal.fire("User Info Incomplete", "Some required user info is missing.", "error");
     }
 

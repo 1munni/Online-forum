@@ -7,7 +7,7 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 const ReportedCommentsPage = () => {
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
-    const [selectedComment, setSelectedComment] = useState(null);
+    const [selectedComment, setSelectedComment] = useState(null); // State to hold the full comment object for the modal
 
     const { data: reportedComments = [], isLoading, error } = useQuery({
         queryKey: ['reportedComments'],
@@ -23,12 +23,22 @@ const ReportedCommentsPage = () => {
             return res.data;
         },
         onSuccess: () => {
-            Swal.fire('Approved!', 'Comment report has been dismissed.', 'success');
+            Swal.fire({
+                title: 'Approved!',
+                text: 'Comment report has been dismissed.',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
             queryClient.invalidateQueries(['reportedComments']);
         },
         onError: (err) => {
             console.error('Error approving comment:', err);
-            Swal.fire('Error', err.response?.data?.error || 'Failed to approve comment.', 'error');
+            Swal.fire(
+                'Error',
+                err.response?.data?.error || 'Failed to approve comment.',
+                'error'
+            );
         }
     });
 
@@ -38,7 +48,13 @@ const ReportedCommentsPage = () => {
             return res.data;
         },
         onSuccess: () => {
-            Swal.fire('Deleted!', 'Comment has been permanently deleted.', 'success');
+            Swal.fire({
+                title: 'Deleted!',
+                text: 'Comment has been permanently deleted.',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
             queryClient.invalidateQueries(['reportedComments']);
         },
         onError: (err) => {
@@ -54,7 +70,12 @@ const ReportedCommentsPage = () => {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, approve it!',
-            cancelButtonText: 'No, cancel'
+            cancelButtonText: 'No, cancel',
+            customClass: {
+                confirmButton: 'px-4 py-2 rounded-lg font-semibold bg-green-500 hover:bg-green-600 text-white',
+                cancelButton: 'px-4 py-2 rounded-lg font-semibold bg-gray-500 hover:bg-gray-600 text-white'
+            },
+            buttonsStyling: false
         });
 
         if (isConfirmed) {
@@ -69,7 +90,12 @@ const ReportedCommentsPage = () => {
             icon: 'error',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel'
+            cancelButtonText: 'No, cancel',
+            customClass: {
+                confirmButton: 'px-4 py-2 rounded-lg font-semibold bg-red-500 hover:bg-red-600 text-white',
+                cancelButton: 'px-4 py-2 rounded-lg font-semibold bg-gray-500 hover:bg-gray-600 text-white'
+            },
+            buttonsStyling: false
         });
 
         if (isConfirmed) {
@@ -77,101 +103,156 @@ const ReportedCommentsPage = () => {
         }
     };
 
+    // --- Start of Design Updates (No Logic/Functionality Changes below this point) ---
+
     if (isLoading) {
-        return <p className="text-center text-gray-500 mt-8">Loading reported comments...</p>;
+        return (
+            <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
+                <span className="loading loading-dots loading-lg text-indigo-600"></span>
+            </div>
+        );
     }
 
     if (error) {
-        return <p className="text-center text-red-500 mt-8">Error loading comments: {error.message}</p>;
+        return (
+            <div className="flex items-center justify-center min-h-[calc(100vh-200px)] text-red-600 font-medium">
+                <p>Error loading comments: {error.message}</p>
+            </div>
+        );
     }
 
     return (
-        <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-gray-800">
-                Reported Comments Overview
-            </h2>
+        <div className="max-w-7xl mx-auto px-4 py-10">
+            {/* Page Title Section - Font weight changed from extrabold to bold */}
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-6 rounded-2xl shadow-xl mb-8 text-center">
+                <h2 className="text-3xl md:text-4xl font-bold break-words"> {/* Changed font-extrabold to font-bold */}
+                    Reported Comments Overview
+                </h2>
+                <p className="text-lg font-medium opacity-90 mt-2">
+                    Review and manage reported user comments.
+                </p>
+            </div>
 
             {reportedComments.length === 0 ? (
-                <p className="text-center text-gray-600 text-lg mt-10">No comments currently reported. All clear!</p>
+                <div className="bg-white shadow-lg rounded-xl p-8 text-center text-gray-600 text-lg flex flex-col items-center justify-center min-h-[200px]">
+                    <p className="mb-4">No comments currently reported. All clear!</p>
+                </div>
             ) : (
-                <div className="overflow-x-auto rounded-lg shadow-md bg-white">
-                    <table className="min-w-full text-sm md:text-base table-auto">
-                        <thead className="bg-purple-100 text-purple-800">
-                            <tr>
-                                <th className="p-3 text-left">Commenter Email</th>
-                                <th className="p-3 text-left">Comment</th>
-                                <th className="p-3 text-left">Report Feedback</th>
-                                <th className="p-3 text-left">Original Post</th>
-                                <th className="p-3 text-left">Reported At</th>
-                                <th className="p-3 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reportedComments.map((comment) => {
-                                const shortText = comment.commentText.length > 50
-                                    ? comment.commentText.slice(0, 50) + '...'
-                                    : comment.commentText;
-
-                                return (
-                                    <tr key={comment._id} className="border-b border-gray-200 hover:bg-gray-50">
-                                        <td className="p-3 break-words min-w-[150px]">{comment.userEmail}</td>
-                                        <td className="p-3 min-w-[250px]">
-                                            {shortText}
-                                            {comment.commentText.length > 50 && (
-                                                <button
-                                                    onClick={() => setSelectedComment(comment)}
-                                                    className="ml-2 text-blue-600 hover:underline text-xs"
-                                                >
-                                                    Read More
-                                                </button>
-                                            )}
-                                        </td>
-                                        <td className="p-3 min-w-[120px] font-semibold text-red-600">
-                                            {comment.feedback}
-                                        </td>
-                                        <td className="p-3 break-words min-w-[180px]">
-                                            {comment.postTitle || 'Loading...'}
-                                        </td>
-                                        <td className="p-3 min-w-[140px]">
-                                            {comment.reportedAt ? format(new Date(comment.reportedAt), 'MMM dd, yyyy HH:mm') : 'N/A'}
-                                        </td>
-                                        <td className="p-3 text-center min-w-[180px]">
-                                            <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-2">
-                                                <button
-                                                    onClick={() => handleApprove(comment._id)}
-                                                    className="btn btn-sm bg-green-500 hover:bg-green-600 text-white rounded-md shadow-sm"
-                                                    disabled={approveCommentMutation.isLoading || deleteCommentMutation.isLoading}
-                                                >
-                                                    Approve
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(comment._id)}
-                                                    className="btn btn-sm bg-red-500 hover:bg-red-600 text-white rounded-md shadow-sm"
-                                                    disabled={approveCommentMutation.isLoading || deleteCommentMutation.isLoading}
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                    {/* The div below with overflow-x-auto ensures horizontal scrolling */}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[150px]">
+                                        Commenter Email
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[250px]">
+                                        Comment
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[120px]">
+                                        Report Feedback
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[180px] hidden md:table-cell">
+                                        Original Post
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[140px] hidden lg:table-cell">
+                                        Reported At
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[180px]">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-100">
+                                {reportedComments.map((comment) => {
+                                    return (
+                                        <tr key={comment._id} className="hover:bg-gray-50 transition-colors duration-150 align-top">
+                                            <td className="px-6 py-4 text-sm font-medium text-gray-900 break-words"> {/* Added break-words */}
+                                                {comment.userEmail}
+                                            </td>
+                                            <td className="px-6 py-4 max-w-xs text-gray-700">
+                                                <p className="text-sm line-clamp-2 leading-relaxed">
+                                                    {comment.commentText}
+                                                </p>
+                                                {comment.commentText.length > 50 && (
+                                                    <button
+                                                        onClick={() => setSelectedComment(comment)}
+                                                        className="mt-1 text-indigo-600 hover:text-indigo-800 text-xs font-semibold transition-colors duration-200"
+                                                    >
+                                                        Read More
+                                                    </button>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm font-semibold text-red-600 break-words"> {/* Added break-words */}
+                                                {comment.feedback}
+                                            </td>
+                                            <td className="px-6 py-4 break-words text-sm text-gray-700 hidden md:table-cell">
+                                                {comment.postTitle || 'N/A'}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-500 hidden lg:table-cell">
+                                                {comment.reportedAt ? format(new Date(comment.reportedAt), 'MMM dd, yyyy HH:mm') : 'N/A'}
+                                            </td>
+                                            <td className="px-6 py-4 text-center">
+                                                <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-2">
+                                                    <button
+                                                        onClick={() => handleApprove(comment._id)}
+                                                        className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white transition-colors duration-200
+                                                            ${approveCommentMutation.isLoading && approveCommentMutation.variables === comment._id
+                                                                ? 'bg-gray-400 cursor-not-allowed'
+                                                                : 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                            }`}
+                                                        disabled={approveCommentMutation.isLoading || deleteCommentMutation.isLoading}
+                                                    >
+                                                        {approveCommentMutation.isLoading && approveCommentMutation.variables === comment._id ? (
+                                                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                        ) : (
+                                                            'Approve'
+                                                        )}
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(comment._id)}
+                                                        className={`inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white transition-colors duration-200
+                                                            ${deleteCommentMutation.isLoading && deleteCommentMutation.variables === comment._id
+                                                                ? 'bg-gray-400 cursor-not-allowed'
+                                                                : 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'
+                                                            }`}
+                                                        disabled={approveCommentMutation.isLoading || deleteCommentMutation.isLoading}
+                                                    >
+                                                        {deleteCommentMutation.isLoading && deleteCommentMutation.variables === comment._id ? (
+                                                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                        ) : (
+                                                            'Delete'
+                                                        )}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
 
-            {/* Read More Modal */}
+            {/* Read More Modal - Enhanced Styling */}
             {selectedComment && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4 py-6">
-                    <div className="bg-white w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-lg shadow-xl p-6">
-                        <h3 className="text-xl font-semibold mb-3 text-gray-800">Full Comment Text</h3>
-                        <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 px-4 py-6 animate-fade-in">
+                    <div className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-lg shadow-xl p-8 transform transition-all duration-300 scale-100 opacity-100 animate-scale-in">
+                        <h3 className="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Full Comment Text</h3>
+                        <p className="text-gray-800 text-base leading-relaxed whitespace-pre-wrap mb-6">
                             {selectedComment.commentText}
                         </p>
-                        <div className="mt-6 flex justify-end">
+                        <div className="flex justify-end">
                             <button
-                                className="btn btn-outline btn-sm text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
+                                className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 onClick={() => setSelectedComment(null)}
                             >
                                 Close

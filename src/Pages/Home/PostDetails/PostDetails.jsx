@@ -40,6 +40,7 @@ const PostDetails = () => {
         userId: user.uid,
         userName: user.displayName,
         userImage: user.photoURL,
+        userEmail:user.email,
         commentText
       };
       await axiosSecure.post('/comments', payload);
@@ -110,7 +111,8 @@ const PostDetails = () => {
             <div key={c._id} className="border-b pb-2">
               <div className="flex gap-2 items-center mb-1">
                 <img src={c.userImage} className="w-6 h-6 rounded-full" />
-                <p className="text-sm font-medium">{c.userName}</p>
+                <p className="text-sm font-medium">{c.
+userName}</p>
               </div>
               <p>{c.commentText}</p>
               <p className="text-xs text-gray-400">{new Date(c.createdAt).toLocaleString()}</p>
