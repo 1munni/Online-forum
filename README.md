@@ -2,7 +2,7 @@
 
 A short one-liner: what it is + who it’s for.
 
-[🟢 Live Demo]([LIVE_URL](https://my-assignment-12-9bb6a.web.app/)) • [🧑‍💻 Repository]([REPO_URL](https://github.com/1munni/Online-forum))
+[Live Project Link]([your-live-url-here](https://my-assignment-12-9bb6a.web.app/))• [🧑‍💻 Repository]([REPO_URL](https://github.com/1munni/Online-forum))
 
 ---
 
