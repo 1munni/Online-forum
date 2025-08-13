@@ -25,8 +25,7 @@ A dynamic community platform where people can connect, share ideas, ask question
 - ✅ The application is fully responsive and works across different devices.
 
 ## Screenshot
-> Add a clean, full-width image or a cropped hero of the app.
-![App screenshot]([./docs/cover.png](https://github.com/1munni/Online-forum/blob/ddec5713dba8ea90f2efd57d058351e77aa6bc70/screencapture-my-assignment-12-9bb6a-web-app-2025-08-13-07_15_58.png))
+![image alt][(image_url](https://github.com/1munni/Online-forum/blob/ddec5713dba8ea90f2efd57d058351e77aa6bc70/screencapture-my-assignment-12-9bb6a-web-app-2025-08-13-07_15_58.png))
 
 ## Technologies Used
 Frontend
