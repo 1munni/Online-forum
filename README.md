@@ -13,13 +13,13 @@ Online Forum
 A dynamic community platform where people can connect, share ideas, ask questions, and discuss topics of interest. Engage in meaningful conversations, exchange knowledge, and collaborate with members from around the world in a safe and interactive space.
 
 ## Tech Stack
-- Framework: REACT_OR_NEXT
-- Styling: TAILWINDCSS (+ DAISYUI_IF_USED)
+- Framework: REACT
+- Styling: TAILWINDCSS + DAISYUI
 - State/Data: TANSTACK_QUERY_OR_CONTEXT
 - Routing: REACT_ROUTER
-- Auth/Backend: FIREBASE_OR_API
-- Build tool: VITE_OR_CRA
-- Others: AXIOS, FORM_LIB, etc.
+- Auth/Backend: FIREBASE
+- Build tool: VITE
+- Others: AXIOS.
 
 ## Core Features
 - ✅ User can create posts, comment on them, and engage in discussions.
